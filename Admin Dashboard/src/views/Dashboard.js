@@ -15,7 +15,6 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
-import Admin from "layouts/Admin";
 import firebase from 'firebase/app'
 import "firebase/analytics";
 import "firebase/auth";
@@ -26,7 +25,10 @@ function Dashboard() {
 
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-
+  const [requestData, setRequestData] = useState([])
+  const [renderRequest, setRenderRequest] = useState(false)
+  const [registerData, setRegisterData] = useState([])
+  const [renderRegister, setRenderRegister] = useState(false)
   // Handle user state changes
   var firebaseConfig = {
     apiKey: "AIzaSyB0xDpz8SbOhsUQd4vNBp_7VVV2QcQtJwg",
@@ -50,61 +52,56 @@ function Dashboard() {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  const adminAuth = () => {
-    console.log("ADMIn")
-    // console.log(user)
-    fetch('http://localhost:3000/admin/create', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: "xyz@inboxbear.com",
-        password: "xyz@inboxbear.com",
-        fname: "Abdul",
-        lname: "Rahman",
-        cnic: "123455678911",
-        phoneNumber: "0312345689",
-        bloodGroup: "A+",
-        city: "ISB",
-        country: "Pakistan"
+  useEffect(() => {
+
+    fetch('http://localhost:3000/admin/list')
+      .then((res => {
+        return res.json()
+      }))
+      .then((result) => {
+        if (result.success) {
+          setRegisterData(result.result)
+        }
+        else {
+          alert(result.error.message)
+        }
+
       })
-    })
+      .catch((err) => {
+        console.log("ERROR", err)
+        alert(err.message)
+      })
+
+
+  }, [renderRegister])
+
+  useEffect(() => {
+
+    fetch('http://localhost:3000/admin/request')
       .then((res => {
         return res.json()
       }))
       .then((result) => {
         if (result.code) {
-          console.log(result)
-          // Alert.alert(
-          //   result.err.name,
-          //   result.err.message,
-          //   [
-          //     {
-          //       text: "Cancel",
-          //       onPress: () => console.log("Cancel Pressed"),
-          //       style: "cancel"
-          //     },
-          //     { text: "OK", onPress: () => console.log("OK Pressed") }
-          //   ]
-          // );
+          setRequestData(result)
           return
         }
         console.log("Result", result)
-        
-       
+        setRequestData(result)
+
       })
       .catch((err) => {
         console.log("ERROR", err)
       })
 
-      
-  }
 
+  }, [renderRequest])
+
+  
   return (
     <>
       <Container fluid>
+      
         <Row>
           <Col lg="3" sm="6">
             <Card className="card-stats">
@@ -118,17 +115,18 @@ function Dashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Registered Users</p>
-                      <Card.Title as="h4">15</Card.Title>
+                      <Card.Title as="h4">{registerData.length}</Card.Title>
                     </div>
                   </Col>
                 </Row>
               </Card.Body>
               <Card.Footer>
                 <hr></hr>
-                <div className="stats">
+
+                <Button className="stats" style={{ borderStyle: "none" }} onClick={() => { setRenderRegister(renderRegister ? false : true) }}>
                   <i className="fas fa-redo mr-1"></i>
-                  Update Now
-                </div>
+                Update Now
+                </Button>
               </Card.Footer>
             </Card>
           </Col>
@@ -144,17 +142,17 @@ function Dashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Request</p>
-                      <Card.Title as="h4">10</Card.Title>
+                      <Card.Title as="h4">{requestData.length}</Card.Title>
                     </div>
                   </Col>
                 </Row>
               </Card.Body>
               <Card.Footer>
                 <hr></hr>
-                <div className="stats">
+                <Button className="stats" style={{ borderStyle: "none" }} onClick={() => { setRenderRequest(renderRequest ? false : true) }}>
                   <i className="fas fa-redo mr-1"></i>
-                  Update now
-                </div>
+                Update Now
+                </Button>
               </Card.Footer>
             </Card>
           </Col>
@@ -177,10 +175,10 @@ function Dashboard() {
               </Card.Body>
               <Card.Footer>
                 <hr></hr>
-                <div className="stats">
+                <Button className="stats" style={{ borderStyle: "none" }} onClick={() => { }}>
                   <i className="fas fa-redo mr-1"></i>
-                  Update now
-                </div>
+                Update Now
+                </Button>
               </Card.Footer>
             </Card>
           </Col>
@@ -203,17 +201,17 @@ function Dashboard() {
               </Card.Body>
               <Card.Footer>
                 <hr></hr>
-                <div className="stats">
+                <Button className="stats" style={{ borderStyle: "none" }}>
                   <i className="fas fa-redo mr-1"></i>
-                  Update now
-                </div>
+                Update Now
+                </Button>
               </Card.Footer>
             </Card>
           </Col>
         </Row>
-        
+
         <Row>
-          
+
           <Col md="4">
             <Card>
               <Card.Header>
@@ -249,8 +247,8 @@ function Dashboard() {
           </Col>
         </Row>
         <Row>
-          
-          
+
+
         </Row>
       </Container>
     </>

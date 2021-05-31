@@ -2,11 +2,7 @@
 import Dashboard from "views/Dashboard.js";
 import UsersList from "views/UsersList.js";
 import RequestList from "views/RequestList.js";
-import Typography from "views/Typography.js";
-import Icons from "views/Icons.js";
-import Maps from "views/Maps.js";
-import Notifications from "views/Notifications.js";
-import Upgrade from "views/Upgrade.js";
+
 
 const dashboardRoutes = [
 
@@ -25,19 +21,19 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/table",
+    path: "/request",
     name: "Registration Request",
     icon: "nc-icon nc-notes",
     component: RequestList,
     layout: "/admin",
   },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "nc-icon nc-bell-55",
-    component: Notifications,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/notifications",
+  //   name: "Notifications",
+  //   icon: "nc-icon nc-bell-55",
+  //   component: Notifications,
+  //   layout: "/admin",
+  // },
 ];
 
 export default dashboardRoutes;

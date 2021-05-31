@@ -11,9 +11,10 @@ import {
   Container,
   Row,
   Col,
-  Alert
+  Alert, Spinner
 } from "react-bootstrap";
 
+import NotificationAlert from "react-notification-alert";
 import firebase from 'firebase/app'
 import "firebase/analytics";
 import "firebase/auth";
@@ -23,6 +24,7 @@ function RequestList() {
 
   const [requestData, setRequestData] = useState([])
   const [render, setRender] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -49,20 +51,24 @@ function RequestList() {
     // console.log("SUNSCRIBER",subscriber)
     return subscriber; // unsubscribe on unmount
   }, []);
-  useEffect(() => {
 
+
+  useEffect(() => {
+    setLoading(true)
     fetch('http://localhost:3000/admin/request')
       .then((res => {
         return res.json()
       }))
       .then((result) => {
         if (result.code) {
+          alert(result.message)
+
+        } else {
+          console.log("Result", result)
           setRequestData(result)
-          return
         }
-        console.log("Result", result)
-        setRequestData(result)
-        
+        setLoading(false)
+
       })
       .catch((err) => {
         console.log("ERROR", err)
@@ -70,6 +76,26 @@ function RequestList() {
 
 
   }, [render])
+
+
+  const notificationAlertRef = React.useRef(null);
+  const notify = (type, place, message) => {
+    var options = {};
+    options = {
+      place: place,
+      message: (
+        <div>
+          <div>
+            {message}
+          </div>
+        </div>
+      ),
+      type: type,
+      icon: "nc-icon nc-bell-55",
+      autoDismiss: 7,
+    };
+    notificationAlertRef.current.notificationAlert(options);
+  };
 
 
   const reject = (id) => {
@@ -81,7 +107,7 @@ function RequestList() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id:id
+        id: id
       })
     })
       .then((res => {
@@ -90,15 +116,49 @@ function RequestList() {
       .then((result) => {
         if (result.success) {
           // console.log("Result", result)
-          console.log("Deleted")
-          setRender(render?false:true)
+          notify("success", "tr", "Account registration request has been rejected successfully")
+          setRender(render ? false : true)
         }
-        else{
+        else {
           console.log("Failed")
+          notify("danger", "tr", result.error.message)
         }
       })
       .catch((err) => {
         console.log("ERROR", err)
+        notify("danger", "tr", err)
+      })
+
+  }
+
+  const rejectAccepted = (id) => {
+    console.log("Reject")
+    fetch('http://localhost:3000/admin/requestDelete', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: id
+      })
+    })
+      .then((res => {
+        return res.json()
+      }))
+      .then((result) => {
+        if (result.success) {
+          // console.log("Result", result)
+          setRender(render ? false : true)
+        }
+        else {
+          // console.log("Failed")
+          notify("danger", "tr", result.error.message)
+        }
+      })
+      .catch((err) => {
+        // console.log("ERROR", err)
+        notify("danger", "tr", err)
       })
 
   }
@@ -112,61 +172,64 @@ function RequestList() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id:id
+        id: id
       })
     })
       .then((res => {
         return res.json()
       }))
       .then((result) => {
-        // if (result.success) {
-        //   // console.log("Result", result)
-        //   console.log("table")
-        //   setRender(render?false:true)
-        // }
-        // else{
-        //   console.log("Failed")
-        // }
-        console.log(result)
-        firebase.auth().signInWithEmailAndPassword(result.email, result.password)
-          .then((userCredential) => {
-            // Signed in
-            var user = userCredential.user;
-            console.log("USER", user)
-            var user = firebase.auth().currentUser;
-            user.sendEmailVerification().then(function () {
-              // Email sent.
-              console.log("Email Sent")
-              firebase.auth()
-              .signOut()
-              .then(() => {
-                console.log('User signed out!')
-                reject(result.docId)
-              });
-            }).catch(function (error) {
-              // An error happened.
-              console.log("Email Error", error)
+        if (result.success) {
+          console.log("Result", result)
+          firebase.auth().signInWithEmailAndPassword(result.credential.email, result.credential.password)
+            .then((userCredential) => {
+              // Signed in
+              var user = userCredential.user;
+              console.log("USER", user)
+              var user = firebase.auth().currentUser;
+              user.sendEmailVerification()
+                .then(function () {
+                  // Email sent.
+                  console.log("Email Sent")
+                  firebase.auth()
+                    .signOut()
+                    .then(() => {
+                      console.log('User signed out!')
+                      notify("success", "tr", "Account registration request has been accepted successfully")
+                      rejectAccepted(result.credential.docId)
+                    });
+
+                })
+                .catch(function (error) {
+                  // An error happened.
+                  // console.log("Email Error", error)
+                  notify("danger", "tr", error.message)
+                });
+
+            })
+            .catch((error) => {
+              console.log(error)
+              notify("danger", "tr", error.message)
             });
-            
-          })
-          .catch((error) => {
-            console.log(error)
-            var errorCode = error.code;
-            var errorMessage = error.message;
-          });
+        }
+        else {
+          console.log("Failed")
+          notify("danger", "tr", result.error.message)
+        }
+
       })
       .catch((err) => {
-        console.log("ERROR", err)
+        notify("danger", "tr", err)
       })
-
-
-
   }
-  
+
+
+
 
   return (
     <>
       <Container fluid>
+        <NotificationAlert ref={notificationAlertRef} />
         <Row>
           <Col md="12">
             <Card className="strpied-tabled-with-hover">
@@ -194,22 +257,32 @@ function RequestList() {
                     </tr>
                   </thead>
                   <tbody>
-                    {requestData.map((val, key) => (
-                      <tr key={key}>
-                        <td>{key}</td>
-                        <td>{val.id}</td>
-                        <td>{val.data.fname}</td>
-                        <td>{val.data.lname}</td>
-                        <td>{val.data.email}</td>
-                        <td>{val.data.cnic}</td>
-                        <td>{val.data.phoneNumber}</td>
-                        <td>{val.data.bloodGroup}</td>
-                        <td>{val.data.city}</td>
-                        <td>{val.data.country}</td>
-                        <td> <Button variant="success" onClick={() => { accept(val.id) }}>Accept</Button>{' '}
-                          <Button variant="danger" onClick={() => { reject(val.id) }}>Reject</Button></td>
-                      </tr>
-                    ))}
+                    {loading ?
+                      <Spinner animation="border" role="status" style={{}}>
+                        <span className="sr-only">Loading...</span>
+                      </Spinner> : (requestData.length == 0) ?
+                        <div style={{paddingTop:"50"}}>
+                        <p className="card-category" >
+                          <strong>There is no pending account register request</strong>
+                        </p>
+                        </div>
+                        :
+                        requestData.map((val, key) => (
+                          <tr key={key}>
+                            <td>{key}</td>
+                            <td>{val.id}</td>
+                            <td>{val.data.fname}</td>
+                            <td>{val.data.lname}</td>
+                            <td>{val.data.email}</td>
+                            <td>{val.data.cnic}</td>
+                            <td>{val.data.phoneNumber}</td>
+                            <td>{val.data.bloodGroup}</td>
+                            <td>{val.data.city}</td>
+                            <td>{val.data.country}</td>
+                            <td> <Button variant="success" onClick={() => { accept(val.id) }}>Accept</Button>{' '}
+                              <Button variant="danger" onClick={() => { reject(val.id) }}>Reject</Button></td>
+                          </tr>
+                        ))}
 
 
                   </tbody>
@@ -217,7 +290,7 @@ function RequestList() {
               </Card.Body>
             </Card>
           </Col>
-          
+
         </Row>
       </Container>
     </>
