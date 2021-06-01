@@ -122,6 +122,7 @@ const ResetEmailScreen = () => {
             var user = firebase.auth().currentUser;
             // console.log(data.username)
             // console.log(data.password)
+            console.log(user)
             var cred=firebase.auth.EmailAuthProvider.credential(user.email,data.password)
             user.reauthenticateWithCredential(cred).then(function() {
                 // User re-authenticated.
@@ -130,14 +131,18 @@ const ResetEmailScreen = () => {
                 // Update successful.
                  
                  console.log("Email was changed successfully")
+                //   Alert.alert("Email Changed","Email was changed successfully")
                  user.sendEmailVerification().then(function () {
                         // Email sent.
                         console.log("Verification Email Send")
                     }).catch(function (error) {
                         // An error happened.
                         console.log(error)
+                        Alert(error)
+                        // console.log(object)
                     });   
-                     firebase.firestore().collection('users')
+                    console.log("UUUU",user.uid)
+                     firebase.firestore().collection('citizens')
                         .doc(user.uid)
                         .get()
                         .then((userDetail)=>{
@@ -145,7 +150,7 @@ const ResetEmailScreen = () => {
                                 console.log("User Data ",userDetail.data())
                                 var detail=userDetail.data()
                                 firebase.firestore()
-                                .collection('users')
+                                .collection('citizens')
                                 .doc(user.uid)
                                 .update({
                                     ...detail,
@@ -154,6 +159,7 @@ const ResetEmailScreen = () => {
                                 .then(()=>{
                                     console.log("FireStore Email Update")
                                     Alert.alert("Email Changed","Email was changed successfully")
+                                    Alert.alert("Profile Updated","Profile info was updated successfully")
                                     setData({
                                         ...data,
                                         password:'',
@@ -166,24 +172,24 @@ const ResetEmailScreen = () => {
                                 })                                
                             }
                         }).catch((error)=>{
-                          console.log("Error",error)
+                          console.log("Errorbbb",error)
                           Alert.alert(error.code,error.message)
                         })
                 }).catch(function(error) {
                 console.log(error)
-                Alert.alert("Error",error)
+                // Alert.alert("Error",error)
                 });
             }).catch(function(error) {
                 // An error happened.
-                console.log("Erorrr",error)
-                Alert.alert("Error",error)
+                console.log("Erorrraa",error)
+                Alert.alert("Error","Password is invalid")
              });
         }
     }
 
      return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#009387' barStyle="light-content" />
+            <StatusBar backgroundColor='#2089dc' barStyle="light-content" />
             <View style={styles.header}>
                 <Text style={styles.text_header}>Change Your Email Address Now!</Text>
             </View>
@@ -271,7 +277,7 @@ const ResetEmailScreen = () => {
                             onPress={() => { reset() }}
                         >
                             <LinearGradient
-                                colors={['#08d4c4', '#01ab9d']}
+                                colors={['#2089dc', '#2089dc']}
                                 style={styles.signIn}
                             >
                                 <Text style={[styles.textSign, {
@@ -291,7 +297,7 @@ export default ResetEmailScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#009387'
+        backgroundColor: '#2089dc'
     },
     header: {
         flex: 1,

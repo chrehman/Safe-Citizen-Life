@@ -98,7 +98,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#009387' barStyle="light-content" />
+            <StatusBar backgroundColor='#2089dc' barStyle="light-content" />
             <View style={styles.header}>
                 <Text style={styles.text_header}>Recover Password Now!</Text>
             </View>
@@ -150,7 +150,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
                         onPress={() => { loginHandle(data.username) }}
                     >
                         <LinearGradient
-                            colors={['#08d4c4', '#01ab9d']}
+                            colors={['#2089dc', '#2089dc']}
                             style={styles.signIn}
                         >
                             <Text style={[styles.textSign, {
@@ -160,19 +160,19 @@ const ForgotPasswordScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.button}>
-                    <TouchableOpacity
-                        style={styles.signIn}
-                        onPress={() => { navigation.navigate('SignInScreen') }}
-                    >
-                        <LinearGradient
-                            colors={['#08d4c4', '#01ab9d']}
-                            style={styles.signIn}
+                   
+                     <TouchableOpacity
+                            onPress={() => navigation.navigate('SignInScreen')}
+                            style={[styles.signIn, {
+                                borderColor: '#2089dc',
+                                borderWidth: 1,
+                                
+                            }]}
                         >
                             <Text style={[styles.textSign, {
-                                color: '#fff'
-                            }]}>Back To Sign In</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
+                                color: '#2089dc'
+                            }]}>Back To Sig In</Text>
+                        </TouchableOpacity>
                 </View>
             </Animatable.View>
         </View>
@@ -184,7 +184,7 @@ export default ForgotPasswordScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#009387'
+        backgroundColor: '#2089dc'
     },
     header: {
         flex: 1,

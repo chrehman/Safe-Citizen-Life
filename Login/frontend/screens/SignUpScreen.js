@@ -23,7 +23,7 @@ import "firebase/firestore";
 import "firebase/auth";
 // import LinearGradient from 'react-native-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
+import { Fontisto,AntDesign,Entypo } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -968,11 +968,12 @@ const SignUpScreen = ({ navigation }) => {
                         marginTop: 35
                     }]}>First Name</Text>
                     <View style={styles.action}>
-                        <Feather
-                            name="lock"
-                            color="#05375a"
-                            size={20}
-                        />
+                        
+                        <AntDesign 
+                        name="user"
+                         size={20} 
+                         color="#05375a"
+                          />
                         <TextInput
                             placeholder="Enter your first name"
 
@@ -992,11 +993,11 @@ const SignUpScreen = ({ navigation }) => {
                         marginTop: 35
                     }]}>Last Name</Text>
                     <View style={styles.action}>
-                        <Feather
-                            name="lock"
-                            color="#05375a"
-                            size={20}
-                        />
+                        <AntDesign 
+                        name="user"
+                         size={20} 
+                         color="#05375a"
+                          />
                         <TextInput
                             placeholder="Enter your last name"
                             style={styles.textInput}
@@ -1015,11 +1016,11 @@ const SignUpScreen = ({ navigation }) => {
                         marginTop: 35
                     }]}>Cnic Number</Text>
                     <View style={styles.action}>
-                        <Feather
-                            name="lock"
-                            color="#05375a"
-                            size={20}
-                        />
+                        <AntDesign 
+                        name="idcard"
+                         size={20} 
+                         color="#05375a"
+                          />
                         <TextInput
                             placeholder="Ex cnic 12345-1234567-7 "
                             style={styles.textInput}
@@ -1038,8 +1039,8 @@ const SignUpScreen = ({ navigation }) => {
                         marginTop: 35
                     }]}>Address</Text>
                     <View style={styles.action}>
-                        <Feather
-                            name="lock"
+                        <Entypo
+                            name="address"
                             color="#05375a"
                             size={20}
                         />
@@ -1061,8 +1062,8 @@ const SignUpScreen = ({ navigation }) => {
                         marginTop: 35
                     }]}>Blood Group</Text>
                     <View style={styles.action}>
-                        <Feather
-                            name="lock"
+                        <Fontisto
+                            name="blood-drop"
                             color="#05375a"
                             size={20}
                         />
@@ -1086,6 +1087,12 @@ const SignUpScreen = ({ navigation }) => {
                     <Text style={[styles.text_footer, {
                         marginTop: 35
                     }]}>Phone Number</Text>
+                    <View style={styles.action}>
+                    <AntDesign
+                     name="phone"
+                      size={20} 
+                      color="#05375a" 
+                      />
                     <PhoneInput
                         style={styles.phoneInput}
                         ref={phoneRef}
@@ -1094,6 +1101,7 @@ const SignUpScreen = ({ navigation }) => {
                         initialCountry={'pk'}
                         onChangePhoneNumber={handlePhoneNumberChange}
                     />
+                    </View>
                     {data.isValidPhoneNumber ? null :
                         <Animatable.View animation="fadeInLeft" duration={500}>
                             <Text style={styles.errorMsg}>{data.phoneNumberError}</Text>
@@ -1103,8 +1111,8 @@ const SignUpScreen = ({ navigation }) => {
                         marginTop: 35
                     }]}>City</Text>
                     <View style={styles.action}>
-                        <Feather
-                            name="lock"
+                        <MaterialCommunityIcons
+                            name="city-variant-outline"
                             color="#05375a"
                             size={20}
                         />
@@ -1127,7 +1135,7 @@ const SignUpScreen = ({ navigation }) => {
                     }]}>Country</Text>
                     <View style={styles.action}>
                         <Feather
-                            name="lock"
+                            name="flag"
                             color="#05375a"
                             size={20}
                         />
@@ -1173,7 +1181,7 @@ const SignUpScreen = ({ navigation }) => {
                                         <Icon
                                             name="camera"
                                             size={35}
-                                            color="black"
+                                            color="#d3d3d3"
                                             style={{
                                                 opacity: 0.7,
                                                 alignItems: 'center',
@@ -1215,7 +1223,7 @@ const SignUpScreen = ({ navigation }) => {
                             onPress={() => { signUp() }}
                         >
                             <LinearGradient
-                                colors={['#08d4c4', '#01ab9d']}
+                                colors={['#2089dc', '#2089dc']}
                                 style={styles.signIn}
                             >
                                 <Text style={[styles.textSign, {
@@ -1227,13 +1235,13 @@ const SignUpScreen = ({ navigation }) => {
                         <TouchableOpacity
                             onPress={() => navigation.goBack()}
                             style={[styles.signIn, {
-                                borderColor: '#009387',
+                                borderColor: '#2089dc',
                                 borderWidth: 1,
                                 marginTop: 15
                             }]}
                         >
                             <Text style={[styles.textSign, {
-                                color: '#009387'
+                                color: '#2089dc'
                             }]}>Sign In</Text>
                         </TouchableOpacity>
                     </View>

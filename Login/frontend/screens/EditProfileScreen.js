@@ -15,8 +15,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
-import { AntDesign } from '@expo/vector-icons';
-import { Fontisto } from '@expo/vector-icons';
+import { Fontisto,AntDesign,Entypo } from '@expo/vector-icons';
+
 import firebase from 'firebase/app';
 import "firebase/firestore";
 import "firebase/auth";
@@ -671,7 +671,7 @@ const EditProfileScreen = () => {
                   <Icon
                     name="camera"
                     size={35}
-                    color="black"
+                    color="#d3d3d3"
                     style={{
                       opacity: 0.7,
                       alignItems: 'center',
@@ -701,11 +701,11 @@ const EditProfileScreen = () => {
               marginTop: 35
             }]}>First Name</Text>
             <View style={styles.action}>
-              <Feather
-                name="lock"
-                color="#05375a"
-                size={20}
-              />
+              <AntDesign 
+                        name="user"
+                         size={20} 
+                         color="#05375a"
+                          />
               <TextInput
                 placeholder="Enter your first name"
 
@@ -725,11 +725,11 @@ const EditProfileScreen = () => {
               marginTop: 35
             }]}>Last Name</Text>
             <View style={styles.action}>
-              <Feather
-                name="lock"
-                color="#05375a"
-                size={20}
-              />
+              <AntDesign 
+                        name="user"
+                         size={20} 
+                         color="#05375a"
+                          />
               <TextInput
                 placeholder="Enter your last name"
                 style={styles.textInput}
@@ -748,11 +748,11 @@ const EditProfileScreen = () => {
               marginTop: 35
             }]}>Cnic Number</Text>
             <View style={styles.action}>
-              <Feather
-                name="lock"
-                color="#05375a"
-                size={20}
-              />
+             <AntDesign 
+                        name="idcard"
+                         size={20} 
+                         color="#05375a"
+                          />
               <TextInput
                 placeholder="Ex cnic 12345-1234567-7 "
                 style={styles.textInput}
@@ -771,11 +771,11 @@ const EditProfileScreen = () => {
               marginTop: 35
             }]}>Address</Text>
             <View style={styles.action}>
-              <Feather
-                name="lock"
-                color="#05375a"
-                size={20}
-              />
+               <Entypo
+                            name="address"
+                            color="#05375a"
+                            size={20}
+                        />
               <TextInput
                 placeholder="Enter your address here"
                 style={styles.textInput}
@@ -794,19 +794,19 @@ const EditProfileScreen = () => {
               marginTop: 35
             }]}>Blood Group</Text>
             <View style={styles.action}>
-              <Feather
-                name="lock"
-                color="#05375a"
-                size={20}
-              />
+              <Fontisto
+                            name="blood-drop"
+                            color="#05375a"
+                            size={20}
+                        />
               <Text style={{ marginLeft: 20 }}>{data.bloodGroup}</Text>
               <Button
                 onPress={showActionSheet}
-                buttonStyle={{ marginLeft: 20, backgroundColor: "#009387" }}
+                buttonStyle={{ marginLeft: 20, backgroundColor: "#2089dc" }}
                 icon={
                   <Fontisto name="blood-drop" size={20} color={"white"} />
                 }
-                title="Choose Blood Group"
+                title="  Choose Blood Group"
               />
 
             </View>
@@ -819,6 +819,13 @@ const EditProfileScreen = () => {
             <Text style={[styles.text_footer, {
               marginTop: 35
             }]}>Phone Number {data.phoneNumber}</Text>
+            
+            <View style={styles.action}>
+                    <AntDesign
+                     name="phone"
+                      size={20} 
+                      color="#05375a" 
+                      />
             <PhoneInput
               style={styles.phoneInput}
               ref={phoneRef}
@@ -827,6 +834,7 @@ const EditProfileScreen = () => {
               initialCountry={'pk'}
               onChangePhoneNumber={handlePhoneNumberChange}
             />
+            </View>
             {data.isValidPhoneNumber ? null :
               <Animatable.View animation="fadeInLeft" duration={500}>
                 <Text style={styles.errorMsg}>{data.phoneNumberError}</Text>
@@ -836,11 +844,11 @@ const EditProfileScreen = () => {
               marginTop: 35
             }]}>City</Text>
             <View style={styles.action}>
-              <Feather
-                name="lock"
-                color="#05375a"
-                size={20}
-              />
+              <MaterialCommunityIcons
+                            name="city-variant-outline"
+                            color="#05375a"
+                            size={20}
+                        />
               <TextInput
                 placeholder="Enter your city name here"
                 style={styles.textInput}
@@ -860,10 +868,10 @@ const EditProfileScreen = () => {
             }]}>Country</Text>
             <View style={styles.action}>
               <Feather
-                name="lock"
-                color="#05375a"
-                size={20}
-              />
+                            name="flag"
+                            color="#05375a"
+                            size={20}
+                        />
               <TextInput
                 placeholder="Enter your country name here"
                 style={styles.textInput}
@@ -886,7 +894,7 @@ const EditProfileScreen = () => {
                 onPress={() => { update() }}
               >
                 <LinearGradient
-                  colors={['#08d4c4', '#01ab9d']}
+                  colors={['#2089dc', '#2089dc']}
                   style={styles.signIn}
                 >
                   <Text style={[styles.textSign, {

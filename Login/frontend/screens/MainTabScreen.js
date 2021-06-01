@@ -36,7 +36,7 @@ const MainTabScreen = () => (
         component={HomeStackScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarColor: '#009387',
+          tabBarColor: '#2089dc',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-home" color={color} size={26} />
           ),
@@ -58,7 +58,7 @@ const MainTabScreen = () => (
         component={ProfileStackScreen}
         options={{
           tabBarLabel: 'Profile',
-          tabBarColor: '#694fad',
+          tabBarColor: '#2089dc',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-person" color={color} size={26} />
           ),
@@ -84,7 +84,7 @@ export default MainTabScreen;
 const HomeStackScreen = ({navigation}) => (
 <HomeStack.Navigator screenOptions={{
         headerStyle: {
-        backgroundColor: '#009387',
+        backgroundColor: '#2089dc',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -94,7 +94,7 @@ const HomeStackScreen = ({navigation}) => (
         <HomeStack.Screen name="Home" component={HomeScreen} options={{
         title:'Overview',
         headerLeft: () => (
-            <Icon.Button name="ios-menu" size={25} backgroundColor="#009387" onPress={() => navigation.openDrawer()}></Icon.Button>
+            <Icon.Button name="ios-menu" size={25} backgroundColor="#2089dc" onPress={() => navigation.openDrawer()}></Icon.Button>
         )
         }} />
 </HomeStack.Navigator>
@@ -193,6 +193,10 @@ const ProfileStackScreen = ({navigation}) => {
         name="ResetPassword"
         options={{
           title: 'Change Password',
+          headerStyle: {
+            backgroundColor: '#2089dc',
+          },
+           headerTintColor: '#fff',
         }}
         component={ResetPasswordScreen}
       />
@@ -200,6 +204,11 @@ const ProfileStackScreen = ({navigation}) => {
         name="ResetEmail"
         options={{
           title: 'Change Email Address',
+          headerStyle: {
+            backgroundColor: '#2089dc',
+            
+          },
+           headerTintColor: '#fff',
         }}
         component={ResetEmailScreen}
       />

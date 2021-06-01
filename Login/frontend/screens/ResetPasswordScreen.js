@@ -139,7 +139,7 @@ const ResetPasswordScreen = () => {
     
      return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#009387' barStyle="light-content" />
+            <StatusBar backgroundColor='#2089dc' barStyle="light-content" />
             <View style={styles.header}>
                 <Text style={styles.text_header}>Change Your Password Now!</Text>
             </View>
@@ -236,7 +236,7 @@ const ResetPasswordScreen = () => {
                             onPress={() => { reset() }}
                         >
                             <LinearGradient
-                                colors={['#08d4c4', '#01ab9d']}
+                                colors={['#2089dc', '#2089dc']}
                                 style={styles.signIn}
                             >
                                 <Text style={[styles.textSign, {
@@ -248,13 +248,13 @@ const ResetPasswordScreen = () => {
                         <TouchableOpacity
                             onPress={() => navigation.goBack()}
                             style={[styles.signIn, {
-                                borderColor: '#009387',
+                                borderColor: '#2089dc',
                                 borderWidth: 1,
                                 marginTop: 15
                             }]}
                         >
                             <Text style={[styles.textSign, {
-                                color: '#009387'
+                                color: '#2089dc'
                             }]}>Sign In</Text>
                         </TouchableOpacity> */}
                     </View>
@@ -269,7 +269,7 @@ export default ResetPasswordScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#009387'
+        backgroundColor: '#2089dc'
     },
     header: {
         flex: 1,
