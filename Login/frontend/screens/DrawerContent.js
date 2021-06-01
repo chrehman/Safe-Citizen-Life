@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
     useTheme,
@@ -9,44 +9,57 @@ import {
     Drawer,
     Text,
     TouchableRipple,
-    Switch
+    Switch,ActivityIndicator
 } from 'react-native-paper';
 import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
-
+import firebase from 'firebase/app';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Ionicons} from 'react-native-vector-icons';
-
-
 import { AuthContext } from '../components/context';
+
 
 export function DrawerContent(props) {
 
     const paperTheme = useTheme();
 
-    const { authContext,loginState } = React.useContext(AuthContext);
-    const [data, setData] = useState(loginState.userData)
+    const [data, setData] = useState({email:''})
+    const[loading,setLoading]=useState(false)
+    const  context  = React.useContext(AuthContext);
+     useEffect(() => {
+         setLoading(true)
+        console.log("Hi")
+      firebase.firestore().collection('citizens')
+      .doc(context.loginState.userId)
+      .onSnapshot((doc) => {
+       setData(doc.data())
+       setLoading(false)
+    })
+
+  }, [])
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
+                        {loading?<ActivityIndicator color="#009387"/>:
                         <View style={{ flexDirection: 'row', marginTop: 15 }}>
                             <Avatar.Image
                                 source={{
-                                    uri: 'https://i.ibb.co/qmJVP87/DSC5745-min.jpg'
+                                    uri: data.userImg
                                 }}
 
                                 size={50}
                             />
                             <View style={{ marginLeft: 15, flexDirection: 'column' }}>
                                 <Title style={styles.title}>{data.fname} {data.lname}</Title>
-                                <Caption style={styles.caption}>@safe_life</Caption>
+                                <Caption style={styles.caption}>@{data.email.replace(/@.*$/,"")}</Caption>
                             </View>
                         </View>
-
+                        }
+{/* 
                         <View style={styles.row}>
                             <View style={styles.section}>
                                 <Paragraph style={[styles.paragraph, styles.caption]}>80</Paragraph>
@@ -56,7 +69,7 @@ export function DrawerContent(props) {
                                 <Paragraph style={[styles.paragraph, styles.caption]}>100</Paragraph>
                                 <Caption style={styles.caption}>Followers</Caption>
                             </View>
-                        </View>
+                        </View> */}
                     </View>
 
                     <Drawer.Section style={styles.drawerSection}>
@@ -113,7 +126,7 @@ export function DrawerContent(props) {
                         />
                     </Drawer.Section>
                     <Drawer.Section title="Preferences">
-                        <TouchableRipple onPress={() => { authContext.toggleTheme() }}>
+                        <TouchableRipple onPress={() => { context.authContext.toggleTheme() }}>
                             <View style={styles.preference}>
                                 <Text>Dark Theme</Text>
                                 <View pointerEvents="none">
@@ -134,7 +147,7 @@ export function DrawerContent(props) {
                         />
                     )}
                     label="Sign Out"
-                    onPress={() => { authContext.signOut() }}
+                    onPress={() => { context.authContext.signOut() }}
                 />
             </Drawer.Section>
         </View>

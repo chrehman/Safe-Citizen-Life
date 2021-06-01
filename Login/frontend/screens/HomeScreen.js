@@ -11,12 +11,14 @@ import { AuthContext } from '../components/context';
 const HomeScreen = ({ navigation }) => {
 
 const [data, setData] = useState({})
+const [loading, setLoading] = useState(false)
   const { colors } = useTheme();
 const  context  = React.useContext(AuthContext);
 const { authContext } = React.useContext(AuthContext);
 
   useEffect(() => {
     console.log("Hi")
+    
       firebase.firestore().collection('citizens')
       .doc(context.loginState.userId)
       .onSnapshot((doc) => {

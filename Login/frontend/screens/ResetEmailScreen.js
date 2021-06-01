@@ -162,10 +162,12 @@ const ResetEmailScreen = () => {
                                 })
                                 .catch((err)=>{
                                     console.log(err)
+                                    Alert.alert(err.code,err.message)
                                 })                                
                             }
                         }).catch((error)=>{
                           console.log("Error",error)
+                          Alert.alert(error.code,error.message)
                         })
                 }).catch(function(error) {
                 console.log(error)

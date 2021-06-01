@@ -45,7 +45,7 @@ const ProfileScreen = () => {
         <View style={{flexDirection: 'row', marginTop: 15}}>
           <Avatar.Image 
             source={{
-              uri: 'https://i.ibb.co/qmJVP87/DSC5745-min.jpg',
+              uri: userData.userImg,
             }}
             size={80}
           />

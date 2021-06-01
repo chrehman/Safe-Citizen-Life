@@ -788,7 +788,7 @@ const SignUpScreen = ({ navigation }) => {
             <ActionSheet
                 ref={actionSheet}
                 // Title of the Bottom Sheet
-                title={'Which one do you like ?'}
+                title={'Please select your blood group type'}
                 // Options Array to show in bottom sheet
                 options={optionArray}
                 // Define cancel button index in the option array
@@ -811,7 +811,7 @@ const SignUpScreen = ({ navigation }) => {
             <ActionSheet
                 ref={actionSheetPic}
                 // Title of the Bottom Sheet
-                title={'Which one do you like ?'}
+                title={'Upload Picture...! '}
                 // Options Array to show in bottom sheet
                 options={imageArray}
                 // Define cancel button index in the option array
